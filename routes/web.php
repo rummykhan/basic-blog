@@ -27,6 +27,8 @@ Route::post('/register', 'RegisterController@doRegister')->name('user-do-registe
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/home', 'UserController@index')->name('user-home');
 
+    Route::resource('posts', 'PostController');
+
     Route::post('/user/logout', 'UserController@logout')->name('user-logout');
 });
 
