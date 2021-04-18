@@ -5,7 +5,7 @@
 </head>
 <body class="container">
 
-    @include('partials.navbar')
+    @include('partials.admin-navbar')
 
     {{--  Start   --}}
 

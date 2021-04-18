@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ route('home') }}">Home</a>
+    <a class="navbar-brand" href="{{ route('user-home') }}">Dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -16,9 +16,13 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     @if(auth()->user())
                         <a class="dropdown-item" href="{{ route('user-home') }}">Dashboard</a>
-                    @else
-                        <a class="dropdown-item" href="{{ route('user-login') }}">Login</a>
-                        <a class="dropdown-item" href="{{ route('user-register') }}">Register</a>
+                        <a class="dropdown-item" href="{{ route('home') }}">Frontend</a>
+                        <a class="dropdown-item" href="#"
+                           onclick="if(confirm('Are you sure?')){$('#logout-form').submit();}">Logout</a>
+
+                        <form action="{{ route('user-logout') }}" method="POST" id="logout-form">
+                            @csrf
+                        </form>
                     @endif
                 </div>
             </li>
