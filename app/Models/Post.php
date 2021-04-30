@@ -27,6 +27,10 @@ class Post extends Model
 
     protected $table = 'posts';
 
+    protected $fillable = [
+        'title', 'content', 'is_active'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

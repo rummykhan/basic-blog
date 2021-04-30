@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddPostRequest;
+use App\Http\Requests\UpdatePostRequest;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +17,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Auth::user()->posts()->get();
+        $posts = Auth::user()
+            ->posts()
+            ->orderBy('id', 'DESC')
+            ->paginate(15);
 
         return view('user.posts.index', [
             'posts' => $posts
@@ -28,7 +34,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.posts.create');
     }
 
     /**
@@ -37,9 +43,15 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddPostRequest $request)
     {
-        //
+        $post = new Post();
+        $post->fill($request->all());
+        $post->user_id = Auth::id();
+        $post->save();
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post is created successfully!');
     }
 
     /**
@@ -50,7 +62,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -61,7 +73,17 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $model = Auth::user()
+            ->posts()
+            ->where('id', $id)
+            ->first();
+
+        if(!$model){
+            return redirect()->route('posts.index')
+                ->with('error', 'Post not found with id '.$id);
+        }
+
+        return view('user.posts.edit', compact('model'));
     }
 
     /**
@@ -71,9 +93,19 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $id)
     {
-        //
+        /** @var Post $model */
+        $model = Post::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $model->fill($request->all());
+
+        $model->save();
+
+        return back()->with('success', 'Post is updated successfully!');
+
     }
 
     /**
