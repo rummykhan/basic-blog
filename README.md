@@ -9,6 +9,7 @@
 - Create app key `php artisan key:generate`
 - Update db in `.env`
 - Run migrations `php artisan migrate`
+- Run migrations `php artisan db:seed --class=PostTableSeeder` to seed some posts to work with
 - Run your app using `php -S localhost:1234 -t public`
 - Goto browser `http://localhost:1234`, you should see the app.
 

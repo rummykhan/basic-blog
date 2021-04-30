@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 // User panel
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/article/{id}/{slug}', 'HomeController@showFullArticle')->name('show-full-article');
 
 Route::get('/login', 'LoginController@index')->name('user-login');
 Route::post('/login', 'LoginController@doLogin')->name('user-do-login');
